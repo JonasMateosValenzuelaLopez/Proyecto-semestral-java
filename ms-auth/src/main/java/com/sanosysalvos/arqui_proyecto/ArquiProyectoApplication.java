@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.sanosysalvos.arquiproyecto.models.Credencial;
-import com.sanosysalvos.arquiproyecto.repositories.CredencialRepository;
+import com.sanosysalvos.arqui_proyecto.models.Credencial;
+import com.sanosysalvos.arqui_proyecto.repositories.CredencialRepository;
 
 @SpringBootApplication
 public class ArquiProyectoApplication {
@@ -29,7 +29,7 @@ public class ArquiProyectoApplication {
 				admin.setContrasena(passwordEncoder.encode("123456")); 
 				
 				repository.save(admin);
-				System.out.println("✅ Usuario de prueba creado en Oracle con éxito.");
+				System.out.println("✅ Usuario de prueba creado en PostgreSQL con éxito.");
 			}
 		};
 	}

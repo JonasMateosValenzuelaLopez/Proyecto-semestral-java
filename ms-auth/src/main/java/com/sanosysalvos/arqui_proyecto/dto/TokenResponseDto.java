@@ -1,14 +1,11 @@
 package com.sanosysalvos.arqui_proyecto.dto;
 
-public class TokenResponse {
-
+public class TokenResponseDto {
+    
     private String token;
 
-    // Constructor vacío
-    public TokenResponse() {
-    }
-
-    public TokenResponse(String token) {
+    // Constructor
+    public TokenResponseDto(String token) {
         this.token = token;
     }
 

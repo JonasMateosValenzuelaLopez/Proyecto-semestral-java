@@ -1,13 +1,9 @@
 package com.sanosysalvos.arqui_proyecto.dto;
 
-public class LoginRequest {
-
+public class LoginRequestDto {
+    
     private String correo;
     private String contrasena;
-
-    // Constructor vacío
-    public LoginRequest() {
-    }
 
     // Getters y Setters
     public String getCorreo() {

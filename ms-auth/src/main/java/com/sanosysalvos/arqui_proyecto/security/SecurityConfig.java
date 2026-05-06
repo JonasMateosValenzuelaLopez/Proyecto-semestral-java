@@ -22,7 +22,6 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
-                // ¡LA MAGIA AQUÍ! Agregamos /error para poder ver si la API falla por otro motivo
                 .requestMatchers("/api/auth/login", "/error").permitAll() 
                 .anyRequest().authenticated()
             );

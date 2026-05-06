@@ -5,7 +5,6 @@ public class LoginRequestDto {
     private String correo;
     private String contrasena;
 
-    // Getters y Setters
     public String getCorreo() {
         return correo;
     }

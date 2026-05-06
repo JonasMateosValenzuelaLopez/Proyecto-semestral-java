@@ -3,6 +3,7 @@ package com.sanosysalvos.ms_identity.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,11 +25,21 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/usuarios/registro").permitAll() 
+                // 1. Permitimos el registro (POST) sin token
+                .requestMatchers(HttpMethod.POST, "/api/usuarios/registro").permitAll()
+                
+                // 2. IMPORTANTE: Permitimos la ruta de error de Spring (evita 403 fantasma)
+                .requestMatchers("/error").permitAll()
+                
+                // 3. Todo lo demás que empiece con /api/usuarios/ requiere estar logueado
+                .requestMatchers("/api/usuarios/**").authenticated()
+                
+                // 4. Cualquier otra petición al servidor requiere estar logueado
                 .anyRequest().authenticated()
             )
             .httpBasic(basic -> basic.disable())
             .formLogin(form -> form.disable())
+            // Colocamos nuestro filtro de Token antes del filtro de usuario/clave estándar
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

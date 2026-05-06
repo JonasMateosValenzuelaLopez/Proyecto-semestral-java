@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.sanosysalvos.ms_identity.dto.UsuarioRequestDto;
 import com.sanosysalvos.ms_identity.models.Usuario;
 import com.sanosysalvos.ms_identity.services.UsuarioService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -27,5 +28,23 @@ public class UsuarioController {
     @GetMapping("/test-protegido")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Si puedes leer esto, es porque tu Token es válido.");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listar() {
+        return ResponseEntity.ok(usuarioService.listarTodos());
+    }
+
+    // PUT: Actualizar un usuario por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> actualizar(@PathVariable Long id, @RequestBody UsuarioRequestDto dto) {
+        return ResponseEntity.ok(usuarioService.actualizarUsuario(id, dto));
+    }
+
+    // DELETE: Eliminar un usuario por ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Long id) {
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.ok("Usuario eliminado correctamente");
     }
 }

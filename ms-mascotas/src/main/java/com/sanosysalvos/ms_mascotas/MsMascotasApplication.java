@@ -1,13 +1,13 @@
-package com.sanosysalvos.arqui_proyecto;
+package com.sanosysalvos.ms_mascotas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ArquiProyectoApplication {
+public class MsMascotasApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ArquiProyectoApplication.class, args);
+		SpringApplication.run(MsMascotasApplication.class, args);
 	}
 
 }

@@ -1,0 +1,38 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: ms-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        # 1. Ruteo hacia Autenticación
+        - id: ms-auth
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/auth/**
+
+        # 2. Ruteo hacia Usuarios
+        - id: ms-identity
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/usuarios/**
+
+        # 3. Ruteo hacia Geolocalización
+        - id: ms-geo
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/geo/**
+
+        # 4. Ruteo hacia Mascotas
+        - id: ms-pets
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/mascotas/**

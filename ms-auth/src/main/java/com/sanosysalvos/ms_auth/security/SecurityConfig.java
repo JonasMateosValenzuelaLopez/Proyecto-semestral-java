@@ -1,4 +1,4 @@
-package com.sanosysalvos.arqui_proyecto.security;
+package com.sanosysalvos.ms_auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

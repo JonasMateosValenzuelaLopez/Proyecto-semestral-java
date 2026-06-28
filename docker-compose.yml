@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: bd_sanos_y_salvos
+    environment:
+      POSTGRES_DB: sanos_y_salvos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    networks:
+      - sanos-network
+
+  ms-auth:
+    image: ms-auth:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - sanos-network
+
+  ms-identity:
+    image: ms-identity:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanos_y_salvos
+    depends_on:
+      - postgres-db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - sanos-network
+
+  ms-geo:
+    image: ms-geo:latest
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanos_y_salvos
+    depends_on:
+      - postgres-db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - sanos-network
+
+  ms-mascotas:
+    image: ms-mascotas:latest
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanos_y_salvos
+    depends_on:
+      - postgres-db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - sanos-network
+
+  ms-gateway:
+    image: ms-gateway:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ms-auth
+      - ms-identity
+      - ms-geo
+      - ms-mascotas
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - sanos-network
+
+networks:
+  sanos-network:
+    driver: overlay

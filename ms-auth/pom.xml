@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sanosysalvos</groupId>
-	<artifactId>arqui-proyecto</artifactId>
+	<artifactId>ms_auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>arqui-proyecto</name>
+	<name>ms_auth</name>
 	<description/>
 	<url/>
 	<licenses>
@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>25</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

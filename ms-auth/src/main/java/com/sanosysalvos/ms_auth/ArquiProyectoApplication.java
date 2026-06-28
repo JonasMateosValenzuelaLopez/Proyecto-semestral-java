@@ -1,4 +1,4 @@
-package com.sanosysalvos.arqui_proyecto;
+package com.sanosysalvos.ms_auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

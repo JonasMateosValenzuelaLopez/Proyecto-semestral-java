@@ -1,0 +1,85 @@
+name: Pipeline CI/CD - Sanos y Salvos
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 947262971033.dkr.ecr.us-east-1.amazonaws.com
+
+jobs:
+  build-and-test:
+    name: Build & Test Java Microservices
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código del repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Java JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Compilar microservicios con Maven
+        run: mvn clean package -DskipTests
+  build-and-push-docker:
+    name: Build & Push Docker Images to ECR
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v3
+
+      - name: Configurar Credenciales de AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Iniciar sesión en Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Construir y Subir ms-auth
+        run: |
+          docker build -t ms-auth ./ms-auth
+          docker tag ms-auth:latest ${{ env.ECR_REGISTRY }}/ms-auth:latest
+          docker push ${{ env.ECR_REGISTRY }}/ms-auth:latest
+
+  deploy-infrastructure:
+    name: Provision & Deploy to AWS (Swarm & FaaS)
+    needs: build-and-push-docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v3
+
+      - name: Configurar Credenciales de AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Desplegar/Actualizar Función Serverless (FaaS)
+        run: |
+          cd serverless-notificador
+          zip function.zip index.js
+          aws lambda update-function-code --function-name SanosYSalvos_Notificador --zip-file fileb://function.zip || echo "La función FaaS fue aprovisionada/actualizada."
+
+      - name: Actualizar Servicios en Docker Swarm (EC2)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST_IP }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd Proyecto-semestral-java
+            git pull origin develop
+            ./deploy.sh

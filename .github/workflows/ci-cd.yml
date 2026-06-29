@@ -24,7 +24,18 @@ jobs:
           distribution: 'temurin'
 
       - name: Compilar microservicios con Maven
-        run: mvn clean package -DskipTests
+        run: |
+          echo "Compilando ms-auth..."
+          mvn -f ms-auth/pom.xml clean package -DskipTests
+          echo "Compilando ms-gateway..."
+          mvn -f ms-gateway/pom.xml clean package -DskipTests
+          echo "Compilando ms-geo..."
+          mvn -f ms-geo/pom.xml clean package -DskipTests
+          echo "Compilando ms-identity..."
+          mvn -f ms-identity/pom.xml clean package -DskipTests
+          echo "Compilando ms-mascotas..."
+          mvn -f ms-mascotas/pom.xml clean package -DskipTests
+          
   build-and-push-docker:
     name: Build & Push Docker Images to ECR
     needs: build-and-test

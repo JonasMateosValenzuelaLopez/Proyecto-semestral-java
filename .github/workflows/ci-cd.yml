@@ -107,4 +107,5 @@ jobs:
           script: |
             cd Proyecto-semestral-java
             git pull origin develop
+            chmod +x deploy.sh
             ./deploy.sh

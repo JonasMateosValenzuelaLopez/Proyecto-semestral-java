@@ -10,7 +10,7 @@ Lista de servicios:
 Desarrollo en local:
 
 Prerrequisitos
-1. Java Development Kit (JDK 17+)
+1. Java Development Kit (JDK 21+)
 2. Docker y Docker Desktop instalados y corriendo.
 3. Maven (o usar el wrapper incluido `mvnw`).
 

@@ -44,6 +44,20 @@ jobs:
       - name: Descargar el código
         uses: actions/checkout@v3
 
+      - name: Configurar Java JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Compilar microservicios con Maven
+        run: |
+          mvn -f ms-auth/pom.xml clean package -DskipTests
+          mvn -f ms-gateway/pom.xml clean package -DskipTests
+          mvn -f ms-geo/pom.xml clean package -DskipTests
+          mvn -f ms-identity/pom.xml clean package -DskipTests
+          mvn -f ms-mascotas/pom.xml clean package -DskipTests
+
       - name: Configurar Credenciales de AWS
         uses: aws-actions/configure-aws-credentials@v2
         with:

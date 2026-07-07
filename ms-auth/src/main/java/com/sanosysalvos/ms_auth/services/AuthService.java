@@ -1,15 +1,15 @@
-package com.sanosysalvos.arqui_proyecto.services;
+package com.sanosysalvos.ms_auth.services;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sanosysalvos.arqui_proyecto.dto.LoginRequestDto;
-import com.sanosysalvos.arqui_proyecto.dto.TokenResponseDto;
-import com.sanosysalvos.arqui_proyecto.models.Credencial;
-import com.sanosysalvos.arqui_proyecto.repositories.CredencialRepository;
-import com.sanosysalvos.arqui_proyecto.security.JwtUtil;
+import com.sanosysalvos.ms_auth.dto.LoginRequestDto;
+import com.sanosysalvos.ms_auth.dto.TokenResponseDto;
+import com.sanosysalvos.ms_auth.models.Credencial;
+import com.sanosysalvos.ms_auth.repositories.CredencialRepository;
+import com.sanosysalvos.ms_auth.security.JwtUtil;
 
 @Service
 public class AuthService {

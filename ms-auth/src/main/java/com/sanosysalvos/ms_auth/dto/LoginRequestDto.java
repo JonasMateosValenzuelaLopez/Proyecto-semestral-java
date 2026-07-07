@@ -1,4 +1,4 @@
-package com.sanosysalvos.arqui_proyecto.dto;
+package com.sanosysalvos.ms_auth.dto;
 
 public class LoginRequestDto {
     

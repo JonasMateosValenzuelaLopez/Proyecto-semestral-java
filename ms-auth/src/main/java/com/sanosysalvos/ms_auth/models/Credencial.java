@@ -1,4 +1,4 @@
-package com.sanosysalvos.arqui_proyecto.models;
+package com.sanosysalvos.ms_auth.models;
 
 import jakarta.persistence.*;
 

@@ -35,13 +35,13 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listarTodos());
     }
 
-    // PUT: Actualizar un usuario por ID
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizar(@PathVariable Long id, @RequestBody UsuarioRequestDto dto) {
         return ResponseEntity.ok(usuarioService.actualizarUsuario(id, dto));
     }
 
-    // DELETE: Eliminar un usuario por ID
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);

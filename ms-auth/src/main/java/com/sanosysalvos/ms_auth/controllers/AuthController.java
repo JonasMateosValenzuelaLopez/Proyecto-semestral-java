@@ -1,4 +1,4 @@
-package com.sanosysalvos.arqui_proyecto.controllers;
+package com.sanosysalvos.ms_auth.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sanosysalvos.arqui_proyecto.dto.LoginRequestDto;
-import com.sanosysalvos.arqui_proyecto.dto.TokenResponseDto;
-import com.sanosysalvos.arqui_proyecto.services.AuthService;
+import com.sanosysalvos.ms_auth.dto.LoginRequestDto;
+import com.sanosysalvos.ms_auth.dto.TokenResponseDto;
+import com.sanosysalvos.ms_auth.services.AuthService;
 
 @RestController 
 @RequestMapping("/api/auth") 

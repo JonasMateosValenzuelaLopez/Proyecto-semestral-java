@@ -1,4 +1,4 @@
-package com.sanosysalvos.arqui_proyecto.security;
+package com.sanosysalvos.ms_auth.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

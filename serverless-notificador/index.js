@@ -1,4 +1,3 @@
-// index.js - AWS Lambda para Sanos y Salvos
 exports.handler = async (event) => {
     console.log("=== INICIANDO FUNCIÓN SERVERLESS: Notificador de Alertas ===");
     

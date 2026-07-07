@@ -106,6 +106,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd Proyecto-semestral-java
-            git pull origin develop
+            git checkout main
+            git pull origin main
             chmod +x deploy.sh
             ./deploy.sh

@@ -1,5 +1,5 @@
 
-# Script de automatización para desplegar microservicios en Docker Swar
+
 echo "Inicialización despliegue de Sanos y Salvos en Docker Swarm"
 
 echo "Verificación estado de Docker Swarm."

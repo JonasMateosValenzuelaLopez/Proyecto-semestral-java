@@ -42,4 +42,3 @@ Comandos útiles
 3. Escalar un microservicio: docker service scale sanosysalvos_ms-mascotas=3
 4. Apagar el ecosistema: docker stack rm sanosysalvos
 
-  a

@@ -70,11 +70,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Construir y Subir ms-auth
+      - name: Construir y Subir todas las imágenes a ECR
         run: |
-          docker build -t ms-auth ./ms-auth
-          docker tag ms-auth:latest ${{ env.ECR_REGISTRY }}/ms-auth:latest
-          docker push ${{ env.ECR_REGISTRY }}/ms-auth:latest
+          for servicio in ms-auth ms-identity ms-geo ms-mascotas ms-gateway; do
+            echo "=== Construyendo $servicio ==="
+            docker build -t $servicio ./$servicio
+            docker tag $servicio:latest ${{ env.ECR_REGISTRY }}/$servicio:latest
+            echo "=== Subiendo $servicio a ECR ==="
+            docker push ${{ env.ECR_REGISTRY }}/$servicio:latest
+          done
 
   deploy-infrastructure:
     name: Provision & Deploy to AWS (Swarm & FaaS)

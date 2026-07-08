@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List; // IMPORTANTE: Para que funcione List.of
+import java.util.List; 
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -32,17 +32,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtUtils.validateToken(token)) {
                 String username = jwtUtils.extractUsername(token);
                 
-                // Creamos el permiso (ROLE_USER)
+      
                 SimpleGrantedAuthority autoridad = new SimpleGrantedAuthority("ROLE_USER");
 
-                // Creamos la autenticación con el usuario y su permiso
+
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         username, 
                         null, 
                         List.of(autoridad)
                 );
 
-                // Seteamos la seguridad
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 
                 System.out.println("DEBUG: Token validado con éxito para: " + username);

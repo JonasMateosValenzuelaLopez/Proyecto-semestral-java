@@ -15,7 +15,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Inyectamos el encriptador
+    private PasswordEncoder passwordEncoder; 
 
     public Usuario registrarUsuario(UsuarioRequestDto dto) {
         if (usuarioRepository.findByCorreo(dto.getCorreo()).isPresent()) {
@@ -28,7 +28,7 @@ public class UsuarioService {
         nuevoUsuario.setTelefono(dto.getTelefono());
         nuevoUsuario.setComuna(dto.getComuna());
         
-        // Encriptamos la contraseña antes de guardar
+
         nuevoUsuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
 
         return usuarioRepository.save(nuevoUsuario);
@@ -38,17 +38,17 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    // ACTUALIZAR
+
     public Usuario actualizarUsuario(Long id, UsuarioRequestDto dto) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
 
-        // Actualizamos los campos permitidos
+
         usuarioExistente.setNombreCompleto(dto.getNombreCompleto());
         usuarioExistente.setTelefono(dto.getTelefono());
         usuarioExistente.setComuna(dto.getComuna());
         
-        // Si el DTO trae una nueva contraseña, la encriptamos
+
         if (dto.getContrasena() != null && !dto.getContrasena().isEmpty()) {
             usuarioExistente.setContrasena(passwordEncoder.encode(dto.getContrasena()));
         }
@@ -56,7 +56,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuarioExistente);
     }
 
-    // ELIMINAR
+
     public void eliminarUsuario(Long id) {
         if (!usuarioRepository.existsById(id)) {
             throw new RuntimeException("No se puede eliminar: Usuario no encontrado");

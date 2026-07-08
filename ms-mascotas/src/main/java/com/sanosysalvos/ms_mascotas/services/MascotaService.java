@@ -18,7 +18,7 @@ public class MascotaService {
     private LambdaNotificadorService lambdaNotificadorService;
 
     public Mascota registrarMascota(Mascota mascota) {
-        // Por defecto, si no le mandan estado, lo ponemos como PERDIDO
+
         if (mascota.getEstado() == null || mascota.getEstado().isEmpty()) {
             mascota.setEstado("PERDIDO");
         }
@@ -39,7 +39,7 @@ public class MascotaService {
         return mascotaRepository.findByEstado(estado);
     }
     
-    // PUT: Actualizar mascota
+
     public Mascota actualizarMascota(Long id, Mascota datosNuevos) {
         return mascotaRepository.findById(id).map(mascotaExistente -> {
             mascotaExistente.setNombre(datosNuevos.getNombre());
@@ -51,7 +51,7 @@ public class MascotaService {
         }).orElseThrow(() -> new RuntimeException("Mascota no encontrada con ID: " + id));
     }
 
-    // DELETE: Eliminar mascota
+
     public void eliminarMascota(Long id) {
         if (!mascotaRepository.existsById(id)) {
             throw new RuntimeException("No se puede eliminar: Mascota no encontrada");

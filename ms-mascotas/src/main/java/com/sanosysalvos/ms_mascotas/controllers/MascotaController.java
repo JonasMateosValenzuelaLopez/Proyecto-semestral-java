@@ -15,25 +15,25 @@ public class MascotaController {
     @Autowired
     private MascotaService mascotaService;
 
-    // POST: Reportar una nueva mascota (PERDIDA o ENCONTRADA)
+
     @PostMapping("/registro")
     public ResponseEntity<Mascota> registrar(@RequestBody Mascota mascota) {
         return ResponseEntity.ok(mascotaService.registrarMascota(mascota));
     }
 
-    // GET: Listar absolutamente todas las mascotas
+
     @GetMapping
     public ResponseEntity<List<Mascota>> listarTodas() {
         return ResponseEntity.ok(mascotaService.listarTodas());
     }
 
-    // GET: Listar solo las perdidas o encontradas (ej. /api/mascotas/estado/PERDIDO)
+
     @GetMapping("/estado/{estado}")
     public ResponseEntity<List<Mascota>> listarPorEstado(@PathVariable String estado) {
         return ResponseEntity.ok(mascotaService.listarPorEstado(estado));
     }
 
-    // PUT: Actualizar datos o cambiar estado de la mascota
+  
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Mascota mascota) {
         try {
@@ -44,7 +44,7 @@ public class MascotaController {
         }
     }
 
-    // DELETE: Eliminar reporte de mascota
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         try {

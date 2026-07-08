@@ -22,6 +22,11 @@ spring:
           uri: lb://ms-geo
           predicates:
             - Path=/api/geo/**
+            
+        - id: ms-identity
+          uri: lb://ms-identity
+          predicates:
+            - Path=/api/identity/**
 
 
       discovery:

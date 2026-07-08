@@ -11,18 +11,17 @@ public class Mascota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre; // Si es encontrada y no se sabe, puede ser "Desconocido"
-    private String especie; // Perro, Gato, etc.
+    private String nombre; 
+    private String especie; 
     private String raza;
     private String descripcion;
     
-    // "PERDIDO", "ENCONTRADO", "REUNIDO"
+  
     private String estado; 
 
-    // Aquí guardamos el ID del usuario de ms-identity que hizo el reporte
+  
     private Long usuarioId; 
-    
-    // Aquí podríamos guardar el ID de la ubicación de ms-geo
+
     private Long ubicacionId;
 
     private LocalDateTime fechaReporte;

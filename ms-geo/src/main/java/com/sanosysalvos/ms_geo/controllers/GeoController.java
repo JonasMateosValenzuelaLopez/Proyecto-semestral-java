@@ -18,7 +18,6 @@ public class GeoController {
 
     @GetMapping("/ubicaciones")
     public List<Ubicacion> obtenerUbicaciones() {
-        // Esta ruta está protegida, requiere el Token de ms-auth
         return ubicacionRepository.findAll();
     }
 }

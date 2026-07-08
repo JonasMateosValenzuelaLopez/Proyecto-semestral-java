@@ -102,5 +102,5 @@ networks:
   sanos-network:
     driver: bridge
 
-volumes: # <--- ¡SE DECLARA AQUÍ ABAJO TAMBIÉN!
+volumes: 
   postgres_data:

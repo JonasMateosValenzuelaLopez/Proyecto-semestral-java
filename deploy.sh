@@ -6,7 +6,7 @@ echo "Verificación estado de Docker Swarm."
 docker swarm init 2>/dev/null || echo "Docker Swarm ya se encuentra inicializado en este nodo."
 
 echo "Desplegando el stack de microservicios..."
-docker stack deploy -c docker-compose.yml sanosysalvos --with-registry-auth
+docker stack deploy -c docker-compose.prod.yml sanosysalvos --with-registry-auth
 
 echo "Despliegue exitoso"
 echo ""

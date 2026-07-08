@@ -3,90 +3,104 @@ version: '3.8'
 services:
   postgres-db:
     image: postgres:15-alpine
-    container_name: bd_sanos_y_salvos
+    container_name: postgres-db
     environment:
-      POSTGRES_DB: sanos_y_salvos
+      POSTGRES_DB: sanosysalvosDB
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
-      - "5432:5432"
+      - "5433:5432"
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - sanos-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   ms-auth:
-    image: 599970668677.dkr.ecr.us-east-1.amazonaws.com/ms-auth:latest
+    build: 
+      context: ./ms-auth
+    container_name: ms-auth
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanosysalvosDB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
-      - postgres-db
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      postgres-db:
+        condition: service_healthy
     networks:
       - sanos-network
 
   ms-identity:
-    image: 599970668677.dkr.ecr.us-east-1.amazonaws.com/ms-identity:latest
+    build: 
+      context: ./ms-identity
+    container_name: ms-identity
     ports:
       - "8081:8081"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanos_y_salvos
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanosysalvosDB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
-      - postgres-db
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      postgres-db:
+        condition: service_healthy
     networks:
       - sanos-network
 
   ms-geo:
-    image: 599970668677.dkr.ecr.us-east-1.amazonaws.com/ms-geo:latest
+    build: 
+      context: ./ms-geo
+    container_name: ms-geo
     ports:
       - "8082:8082"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanos_y_salvos
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanosysalvosDB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
-      - postgres-db
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      postgres-db:
+        condition: service_healthy
     networks:
       - sanos-network
 
   ms-mascotas:
-    image: 599970668677.dkr.ecr.us-east-1.amazonaws.com/ms-mascotas:latest
+    build: 
+      context: ./ms-mascotas
+    container_name: ms-mascotas
     ports:
       - "8083:8083"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanos_y_salvos
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/sanosysalvosDB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
-      - postgres-db
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      postgres-db:
+        condition: service_healthy
     networks:
       - sanos-network
 
   ms-gateway:
-    image: 599970668677.dkr.ecr.us-east-1.amazonaws.com/ms-gateway:latest
+    build: 
+      context: ./ms-gateway
+    container_name: ms-gateway
     ports:
-      - "8000:8000"
+      - "8000:8080"
     depends_on:
       - ms-auth
       - ms-identity
       - ms-geo
       - ms-mascotas
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
       - sanos-network
 
 networks:
   sanos-network:
-    driver: overlay
+    driver: bridge
+
+volumes: # <--- ¡SE DECLARA AQUÍ ABAJO TAMBIÉN!
+  postgres_data:

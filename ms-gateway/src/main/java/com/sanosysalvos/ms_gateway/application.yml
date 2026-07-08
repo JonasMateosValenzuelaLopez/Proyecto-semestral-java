@@ -1,0 +1,38 @@
+server:
+  port: 8080 
+
+spring:
+  application:
+    name: ms-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ms-auth
+          uri: http://ms-auth:8080
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=0
+        - id: ms-mascotas
+          uri: lb://ms-mascotas
+          predicates:
+            - Path=/api/mascotas/**
+
+        - id: ms-geo
+          uri: lb://ms-geo
+          predicates:
+            - Path=/api/geo/**
+
+
+      discovery:
+        locator:
+          enabled: true
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+        http:
+          server:
+            reactive: DEBUG
